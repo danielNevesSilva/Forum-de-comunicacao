@@ -1,6 +1,8 @@
 package com.danielNeves.mongoDb.resource;
 
 import com.danielNeves.mongoDb.domain.User;
+import com.danielNeves.mongoDb.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,15 +15,13 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/users")
+@RequestMapping(value="/users") // controlador acessa o serviço
 public class UserResource {
+    @Autowired
+    private UserService service; // serviço acessa o repositorio
     @RequestMapping(method= RequestMethod.GET)
     public ResponseEntity<List<User>> finAll(){
-        User maria = new User("1", "Maria silva", "maria@gmail.com");
-        User alex = new User("2", "Alex silva", "Alex@gmail.com");
-        List<User> list = new ArrayList<>();
-
-        list.addAll(Arrays.asList(maria,alex));
+        List<User> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
