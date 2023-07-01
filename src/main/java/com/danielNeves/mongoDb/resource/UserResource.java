@@ -1,5 +1,6 @@
 package com.danielNeves.mongoDb.resource;
 
+import com.danielNeves.mongoDb.DTO.UserDTO;
 import com.danielNeves.mongoDb.domain.User;
 import com.danielNeves.mongoDb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value="/users") // controlador acessa o serviço
@@ -20,9 +22,10 @@ public class UserResource {
     @Autowired
     private UserService service; // serviço acessa o repositorio
     @RequestMapping(method= RequestMethod.GET)
-    public ResponseEntity<List<User>> finAll(){
+    public ResponseEntity<List<UserDTO>> finAll(){
         List<User> list = service.findAll();
-        return ResponseEntity.ok().body(list);
+        List<UserDTO> listDto = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
     }
 
 }
