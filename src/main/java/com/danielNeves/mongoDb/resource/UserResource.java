@@ -1,6 +1,7 @@
 package com.danielNeves.mongoDb.resource;
 
 import com.danielNeves.mongoDb.DTO.UserDTO;
+import com.danielNeves.mongoDb.domain.Post;
 import com.danielNeves.mongoDb.domain.User;
 import com.danielNeves.mongoDb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class UserResource {
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public ResponseEntity<UserDTO> finById(@PathVariable String id){
+    public ResponseEntity<UserDTO> findById(@PathVariable String id){
         User obj = service.findById(id);
         return ResponseEntity.ok().body(new UserDTO(obj));
     }
@@ -57,4 +58,9 @@ public class UserResource {
 
     }
 
+    @RequestMapping(value="/{id}/posts", method = RequestMethod.GET)
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id){
+        User obj = service.findById(id);
+        return ResponseEntity.ok().body(obj.getPosts());
+    }
 }
