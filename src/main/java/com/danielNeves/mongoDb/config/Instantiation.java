@@ -1,6 +1,7 @@
 package com.danielNeves.mongoDb.config;
 
 import com.danielNeves.mongoDb.DTO.AuthorDTO;
+import com.danielNeves.mongoDb.DTO.CommentDTO;
 import com.danielNeves.mongoDb.domain.Post;
 import com.danielNeves.mongoDb.domain.User;
 import com.danielNeves.mongoDb.repository.PostRepository;
@@ -41,7 +42,18 @@ public class Instantiation implements CommandLineRunner {
 
         postRepository.saveAll(Arrays.asList(post1, post2));
 
+
+        CommentDTO comment1 = new CommentDTO("Boa viagem mano!", sdf.parse("21/03/2023"), new AuthorDTO(alex));
+        CommentDTO comment2 = new CommentDTO("Aproveite!", sdf.parse("22/03/2023"), new AuthorDTO(bob));
+        CommentDTO comment3 = new CommentDTO("Tenha um ótimo dia!", sdf.parse("23/03/2023"), new AuthorDTO(alex));
+
+        post1.getComments().addAll(Arrays.asList(comment1, comment2));
+        post2.getComments().addAll(Arrays.asList(comment3));
+
+        postRepository.saveAll(Arrays.asList(post1,post2));
+        
         maria.getPosts().addAll(Arrays.asList(post1,post2));
         userRepository.save(maria);
+
     }
 }
